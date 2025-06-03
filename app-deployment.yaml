@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: my-app
-        image: wil42/playground:v2 # Remplacez "v1" par "v2" pour une nouvelle version
+        image: wil42/playground:v2  # <- Changez ici v1 -> v2
         ports:
         - containerPort: 8888
 
@@ -37,7 +37,23 @@ spec:
   selector:
     app: my-app
   ports:
-  - protocol: TCP
-    port: 8888
-    targetPort: 8888
+    - protocol: TCP
+      port: 8888
+      targetPort: 8888
   type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-internal
+  namespace: dev
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 8888
+      targetPort: 8888
+  type: ClusterIP
